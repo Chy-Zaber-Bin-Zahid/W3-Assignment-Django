@@ -10,6 +10,17 @@ ENV PYTHONUNBUFFERED 1
 # Set the working directory in the container
 WORKDIR /app
 
+RUN apt-get update \
+    && apt-get install -y \
+    binutils \
+    libproj-dev \
+    gdal-bin \
+    libgdal-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the environment variable for GDAL
+ENV GDAL_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/gdal
+
 # Install dependencies
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
